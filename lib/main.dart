@@ -1,7 +1,14 @@
+import 'package:eazyfood/providers/products.dart';
+import 'package:eazyfood/views/add_edit_product.dart';
 import 'package:eazyfood/views/home.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:mpesa_flutter_plugin/mpesa_flutter_plugin.dart';
+import 'package:eazyfood/keys/globay_key.dart';
 
 void main() {
+   MpesaFlutterPlugin.setConsumerKey(consumerKey);
+  MpesaFlutterPlugin.setConsumerSecret(consumerSecret);
   runApp(const MyApp());
 }
 
@@ -17,27 +24,27 @@ class _MyAppState extends State<MyApp> {
   bool isClicked = false;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Eazyfood',
-      theme: ThemeData(
-        primarySwatch: Colors.grey,
-        primaryColor: Colors.purple,
-        textTheme: const TextTheme(
-          headline6: TextStyle(fontWeight: FontWeight.bold),
-          headline5: TextStyle(fontWeight: FontWeight.normal),
-        ),
-      ),
-      home: Scaffold(
-        appBar: AppBar(leading: const Icon(Icons.restaurant),title: const Text("eazyfood"),elevation: 0,actions: const [Icon(Icons.shopping_cart)],),
-        floatingActionButton: Container(
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.purple,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context)=>Products())
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Eazyfood',
+        theme: ThemeData(
+          primarySwatch: Colors.grey,
+          primaryColor: Colors.purple,
+          textTheme: const TextTheme(
+            headline6: TextStyle(fontWeight: FontWeight.bold),
+            headline5: TextStyle(fontWeight: FontWeight.normal),
           ),
-          child: IconButton(onPressed: () {}, icon: const Icon(Icons.add)),
         ),
-        body:const Home(),
+        home: const Scaffold( 
+          body: Home(),
+        ),
+        routes: {EditAddProduct.routName: (context) => const EditAddProduct(),
+        
+        },
       ),
     );
   }

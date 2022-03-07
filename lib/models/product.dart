@@ -1,9 +1,9 @@
 class Product {
   Product(
-      this.imageUrl, this.description, this.price, this.subHeading, this.type);
-  final String imageUrl;
-  final int price;
-  final String type;
-  final String subHeading;
-  final String description;
+      { required this.imageUrl, required this.description, required this.price, required this.subHeading, required this.type});
+   String imageUrl;
+   double price;
+   String type;
+   String subHeading;
+  String  description;
 }

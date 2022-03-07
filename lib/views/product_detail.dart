@@ -1,3 +1,4 @@
+import 'package:eazyfood/views/checkout.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -12,7 +13,7 @@ class ProductDetail extends StatefulWidget {
   final String id;
   final String image;
   final String description;
-  final int price;
+  final double price;
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
@@ -20,6 +21,7 @@ class ProductDetail extends StatefulWidget {
 
 class _ProductDetailState extends State<ProductDetail> {
   bool liked = false;
+  bool showlike = false;
   void _handlelike() {
     setState(() {
       liked = !liked;
@@ -37,7 +39,23 @@ class _ProductDetailState extends State<ProductDetail> {
         child: ListView(
           children: [
             Stack(children: [
-              GestureDetector(onDoubleTap:_handlelike,child: Image.network(widget.image)),
+              GestureDetector(
+                  onDoubleTap: _handlelike,
+                  child: Image.network(
+                    widget.image,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        showlike = true;
+                        return child;
+                      } else {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                    },
+                    errorBuilder: (context, error, stackTrace) => const Center(
+                        heightFactor: 20, child: Text('No image to show')),
+                  )),
               Positioned(
                   bottom: 15,
                   right: 15,
@@ -64,8 +82,14 @@ class _ProductDetailState extends State<ProductDetail> {
                 children: [
                   Text("ksh ${widget.price}"),
                   ElevatedButton(
-                      onPressed: () => {}, child: const Text("Add to cart")),
-                  
+                      onPressed: () => {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        Checkout(amount: widget.price)))
+                          },
+                      child: const Text("order now")),
                 ],
               ),
             ),

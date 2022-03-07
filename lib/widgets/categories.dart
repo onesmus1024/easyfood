@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../providers/products.dart';
+import 'package:provider/provider.dart';
 
 class Category1 extends StatefulWidget {
   const Category1({Key? key}) : super(key: key);
@@ -12,21 +14,23 @@ class _CategoryState1 extends State<Category1> {
   void selected(int index) {
     setState(() {
       selectedIndex = index;
+      Provider.of<Products>(context, listen: false).getProducts;
+      Provider.of<Products>(context, listen: false)
+          .fetchProduct2(categories[index].toLowerCase());
     });
   }
 
   List<String> categories = [
     'All',
-    'madfish',
-    'pizza',
-    'tomato soup',
+    'chicken',
+    'soup',
     'vegetable',
-    'All',
-    'madfish',
+    'cheese',
     'pizza',
-    'tomato soup',
-    'vegetable'
+    'non-vegetable',
+    'beverages'
   ];
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
