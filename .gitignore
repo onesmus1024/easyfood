@@ -49,3 +49,4 @@ app.*.map.json
 # file to ignore from my project
 
 keys/
+key.properties
